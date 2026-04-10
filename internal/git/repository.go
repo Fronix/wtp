@@ -4,6 +4,7 @@ package git
 import (
 	stdErrors "errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -62,13 +63,25 @@ func (r *Repository) GetMainWorktreePath() (string, error) {
 		return parent, nil
 	}
 
-	// If commonDir doesn't end with .git, it's likely already the worktree path
+	// Resolve to absolute path
 	if !filepath.IsAbs(commonDir) {
 		absPath, absErr := filepath.Abs(filepath.Join(r.path, commonDir))
 		if absErr != nil {
 			return "", fmt.Errorf("failed to get absolute path: %w", absErr)
 		}
-		return absPath, nil
+		commonDir = absPath
+	}
+
+	// For bare repos (e.g., .bare directory), check if the parent directory
+	// has a .git file pointing to this directory. This supports the common
+	// bare-clone-with-worktrees pattern where:
+	//   project/.git       -> gitdir: ./.bare
+	//   project/.bare/     -> the actual bare repo
+	//   project/.wtp.yml   -> config lives at the project root
+	parent := filepath.Dir(commonDir)
+	gitFile := filepath.Join(parent, ".git")
+	if info, err := os.Stat(gitFile); err == nil && !info.IsDir() {
+		return parent, nil
 	}
 
 	return commonDir, nil
