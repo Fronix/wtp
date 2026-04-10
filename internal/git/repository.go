@@ -151,6 +151,17 @@ func (r *Repository) ExecuteGitCommand(args ...string) error {
 	return nil
 }
 
+// GetRemoteURL returns the fetch URL for the named remote.
+func (r *Repository) GetRemoteURL(remote string) (string, error) {
+	cmd := exec.Command("git", "remote", "get-url", remote)
+	cmd.Dir = r.path
+	output, err := cmd.Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to get URL for remote '%s': %w", remote, err)
+	}
+	return strings.TrimSpace(string(output)), nil
+}
+
 // BranchExists checks if a branch exists locally
 func (r *Repository) BranchExists(branch string) (bool, error) {
 	// Validate branch name to prevent command injection

@@ -25,6 +25,7 @@ func newApp() *cli.Command {
 			NewCdCommand(),
 			NewExecCommand(),
 			// Built-in completion is automatically provided by urfave/cli
+			NewPrCommand(),
 			NewHookCommand(),
 			NewShellInitCommand(),
 		},

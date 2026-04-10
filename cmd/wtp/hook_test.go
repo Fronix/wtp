@@ -202,7 +202,7 @@ func TestHookScripts_AutoCdAfterAdd(t *testing.T) {
 			name:  "bash auto cd after add uses quiet and tty guard",
 			shell: "bash",
 			contains: []string{
-				"elif [[ \"$1\" == \"add\" ]]",
+				"elif [[ \"$1\" == \"add\" || \"$1\" == \"pr\" ]]",
 				"if [[ \"$arg\" == \"--help\" || \"$arg\" == \"-h\" ]]; then",
 				"if [[ ! -t 1 ]]; then",
 				"target_dir=$(command wtp \"$@\" --quiet)",
@@ -215,7 +215,7 @@ func TestHookScripts_AutoCdAfterAdd(t *testing.T) {
 			name:  "zsh auto cd after add uses quiet and tty guard",
 			shell: "zsh",
 			contains: []string{
-				"elif [[ \"$1\" == \"add\" ]]",
+				"elif [[ \"$1\" == \"add\" || \"$1\" == \"pr\" ]]",
 				"if [[ \"$arg\" == \"--help\" || \"$arg\" == \"-h\" ]]; then",
 				"if [[ ! -t 1 ]]; then",
 				"target_dir=$(command wtp \"$@\" --quiet)",

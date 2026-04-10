@@ -107,7 +107,7 @@ wtp() {
                 command wtp cd "$2"
             fi
         fi
-    elif [[ "$1" == "add" ]]; then
+    elif [[ "$1" == "add" || "$1" == "pr" ]]; then
         for arg in "$@"; do
             if [[ "$arg" == "--help" || "$arg" == "-h" ]]; then
                 command wtp "$@"
@@ -160,7 +160,7 @@ wtp() {
                 command wtp cd "$2"
             fi
         fi
-    elif [[ "$1" == "add" ]]; then
+    elif [[ "$1" == "add" || "$1" == "pr" ]]; then
         for arg in "$@"; do
             if [[ "$arg" == "--help" || "$arg" == "-h" ]]; then
                 command wtp "$@"
@@ -213,7 +213,7 @@ function wtp
                 command wtp cd $argv[2]
             end
         end
-    else if test "$argv[1]" = "add"
+    else if test "$argv[1]" = "add" -o "$argv[1]" = "pr"
         for arg in $argv
             if test "$arg" = "--help"; or test "$arg" = "-h"
                 command wtp $argv
@@ -296,7 +296,7 @@ function wtp {
                 & $__wtpPath cd
             }
         }
-    } elseif ($args[0] -eq "add") {
+    } elseif ($args[0] -eq "add" -or $args[0] -eq "pr") {
         foreach ($arg in $args) {
             if ($arg -eq "--help" -or $arg -eq "-h") {
                 & $__wtpPath @args

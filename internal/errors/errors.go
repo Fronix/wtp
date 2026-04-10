@@ -359,3 +359,24 @@ Solutions:
 	msg += fmt.Sprintf("\n\nOriginal error: %v", originalError)
 	return errors.New(msg)
 }
+
+// PRNumberRequired returns an error when no PR number is provided.
+func PRNumberRequired() error {
+	return errors.New(`PR/MR number is required
+
+Usage: wtp pr <number>
+
+Examples:
+  wtp pr 123
+  wtp pr 456 --remote upstream
+  wtp pr 789 -b review-fix`)
+}
+
+// InvalidPRNumber returns an error when the PR number is not a valid positive integer.
+func InvalidPRNumber(input string) error {
+	return fmt.Errorf(`invalid PR/MR number: '%s'
+
+The PR number must be a positive integer.
+
+Usage: wtp pr <number>`, input)
+}
